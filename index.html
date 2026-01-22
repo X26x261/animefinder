@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Anime Seçici -Boris</title>
+
+<style>
+:root{
+  --neon:#ff4ecd;
+  --neon2:#7c7cff;
+  --panel:rgba(10,12,30,0.75);
+  --border:rgba(255,78,205,0.35);
+  --text:#f1f1f1;
+  --muted:#b3b3c6;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  /* 🌌 URL İLE ARKAPLAN */
+  background:
+    linear-gradient(rgba(5,5,20,.85),rgba(5,5,20,.85)),
+    url("https://media.discordapp.net/attachments/570621417935208463/1463715351836758036/qq9rnxx4sg971.png?ex=6972d6a6&is=69718526&hm=9477d020dbdebc2186680b4ee2ea4954b47f9d25276b58e86a2b5503a912871e&=&format=webp&quality=lossless&width=550&height=309");
+  background-size:cover;
+  background-position:center;
+}
+
+/* ANA KASA */
+.container{
+  width:1100px;
+  height:640px;
+  display:grid;
+  grid-template-columns:360px 1fr;
+  gap:22px;
+}
+
+/* SOL PANEL */
+.sidebar{
+  background:var(--panel);
+  backdrop-filter:blur(14px);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 0 40px rgba(255,78,205,0.25);
+
+  position:relative;
+  top:-24px; /* 🔼 yukarı alındı */
+}
+
+.sidebar h3{
+  font-size:14px;
+  color:var(--muted);
+  margin-bottom:10px;
+  letter-spacing:1px;
+}
+
+.genres{
+  flex:1;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding-right:6px;
+}
+
+.genres label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 12px;
+  border-radius:12px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  cursor:pointer;
+  transition:.2s;
+  font-size:14px;
+}
+
+.genres label:hover{
+  border-color:var(--neon);
+  box-shadow:0 0 12px rgba(255,78,205,.45);
+}
+
+input[type="checkbox"]{
+  accent-color:var(--neon);
+}
+
+.search-btn{
+  margin-top:14px;
+  height:48px;
+  border-radius:14px;
+  border:none;
+  background:linear-gradient(135deg,var(--neon),var(--neon2));
+  color:#020617;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 0 25px rgba(255,78,205,.6);
+}
+
+/* SAĞ PANEL */
+.main{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+}
+
+/* 🖼️ PREVIEW */
+.preview{
+  width:350px;
+  height:540px;
+  border-radius:22px;
+  border:1px solid var(--border);
+  background:rgba(0,0,0,0.75); /* %75 opak */
+  overflow:hidden;
+  box-shadow:0 0 45px rgba(124,124,255,.25);
+}
+
+/* 🎯 RESİM TAM DOLU */
+.preview img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* BAŞLIK */
+.title-box{
+  width:350px;
+  height:42px;
+  border-radius:14px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  text-align:center;
+  padding:0 12px;
+  box-shadow:0 0 16px rgba(255,78,205,.2);
+}
+
+/* BUTON */
+.action{
+  width:350px;
+  height:40px;
+  border-radius:14px;
+  border:1px solid var(--neon);
+  background:transparent;
+  color:var(--neon);
+  font-size:13px;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.action:hover{
+  background:var(--neon);
+  color:#020617;
+  box-shadow:0 0 25px var(--neon);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- SOL -->
+  <div class="sidebar">
+    <h3>TÜRLER</h3>
+
+    <div class="genres">
+      <label><input type="checkbox" value="1"> Action</label>
+      <label><input type="checkbox" value="2"> Adventure</label>
+      <label><input type="checkbox" value="4"> Comedy</label>
+      <label><input type="checkbox" value="8"> Drama</label>
+      <label><input type="checkbox" value="9"> Ecchi</label>
+      <label><input type="checkbox" value="10"> Fantasy</label>
+      <label><input type="checkbox" value="14"> Horror</label>
+      <label><input type="checkbox" value="22"> Romance</label>
+      <label><input type="checkbox" value="24"> Sci-Fi</label>
+      <label><input type="checkbox" value="30"> Sports</label>
+      <label><input type="checkbox" value="36"> Slice of Life</label>
+      <label><input type="checkbox" value="37"> Supernatural</label>
+      <label><input type="checkbox" value="7"> Mystery</label>
+      <label><input type="checkbox" value="41"> Thriller</label>
+    </div>
+
+    <button class="search-btn" onclick="animeBul()">Anime Bul</button>
+  </div>
+
+  <!-- SAĞ -->
+  <div class="main">
+    <div class="preview">
+      <img id="animeImg" style="display:none">
+    </div>
+
+    <div class="title-box" id="animeTitle">Anime Seçilmedi</div>
+    <button class="action" onclick="animecixGit()">Animecix’e Git</button>
+  </div>
+
+</div>
+
+<script>
+let secilenAnime="";
+
+// 🔹 Sayfanın en üstüne "Made by Boris (Furkan)" ekleme
+const madeBy = document.createElement('div');
+madeBy.innerText = "Made by Boris (Furkan)";
+madeBy.style.position = "absolute";
+madeBy.style.top = "20px";
+madeBy.style.width = "100%";
+madeBy.style.textAlign = "center";
+madeBy.style.fontSize = "50px";  // 🔹 Boy büyütüldü
+madeBy.style.fontWeight = "600";
+madeBy.style.color = "var(--neon)";
+madeBy.style.textShadow = "0 0 8px var(--neon), 0 0 12px var(--neon2)";
+madeBy.style.fontFamily = "Inter, sans-serif";
+madeBy.style.zIndex = "1000";
+document.body.appendChild(madeBy);
+
+async function animeBul(){
+  const selected=[...document.querySelectorAll("input:checked")]
+    .map(i=>Number(i.value));
+
+  const page=Math.floor(Math.random()*40)+1;
+  const res=await fetch(`https://api.jikan.moe/v4/anime?page=${page}&limit=25`);
+  const data=await res.json();
+
+  let bestScore=-1;
+  let best=[];
+
+  data.data.forEach(anime=>{
+    const ids=anime.genres.map(g=>g.mal_id);
+    let score=0;
+    selected.forEach(s=>{
+      if(ids.includes(s)) score++;
+    });
+
+    if(score>bestScore){
+      bestScore=score;
+      best=[anime];
+    }else if(score===bestScore){
+      best.push(anime);
+    }
+  });
+
+  if(!best.length) return;
+
+  const chosen=best[Math.floor(Math.random()*best.length)];
+  secilenAnime=chosen.title;
+
+  document.getElementById("animeTitle").innerText=chosen.title;
+  const img=document.getElementById("animeImg");
+  img.src=chosen.images.jpg.large_image_url;
+  img.style.display="block";
+}
+
+function animecixGit(){
+  if(!secilenAnime) return;
+  location.href="https://www.google.com/search?q=site:animecix "+encodeURIComponent(secilenAnime);
+}
+</script>
+
+</body>
+</html>
