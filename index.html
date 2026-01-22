@@ -222,7 +222,7 @@ madeBy.style.position = "absolute";
 madeBy.style.top = "50px";
 madeBy.style.width = "100%";
 madeBy.style.textAlign = "center";
-madeBy.style.fontSize = "24px";  // 🔹 Boy büyütüldü
+madeBy.style.fontSize = "24px";
 madeBy.style.fontWeight = "600";
 madeBy.style.color = "var(--neon)";
 madeBy.style.textShadow = "0 0 8px var(--neon), 0 0 12px var(--neon2)";
@@ -231,45 +231,57 @@ madeBy.style.zIndex = "1000";
 document.body.appendChild(madeBy);
 
 async function animeBul(){
-  const selected=[...document.querySelectorAll("input:checked")]
-    .map(i=>Number(i.value));
+  const selected=[...document.querySelectorAll("input:checked")].map(i=>Number(i.value));
 
-  const page=Math.floor(Math.random()*40)+1;
-  const res=await fetch(`https://api.jikan.moe/v4/anime?page=${page}&limit=25`);
-  const data=await res.json();
+  let attempts = 0;
+  let chosen = null;
 
-  let bestScore=-1;
-  let best=[];
+  while(attempts < 10 && !chosen){  // 10 deneme hakkı
+    attempts++;
+    const page=Math.floor(Math.random()*150)+1; // rastgele sayfa
+    const res=await fetch(`https://api.jikan.moe/v4/anime?page=${page}&limit=25`);
+    const data=await res.json();
 
-  data.data.forEach(anime=>{
-    const ids=anime.genres.map(g=>g.mal_id);
-    let score=0;
-    selected.forEach(s=>{
-      if(ids.includes(s)) score++;
+    let bestScore=-1;
+    let best=[];
+
+    data.data.forEach(anime=>{
+      const ids = anime.genres.map(g=>g.mal_id);
+      let score = 0;
+      selected.forEach(s=>{
+        if(ids.includes(s)) score++;
+      });
+
+      // Genre eşleşiyor ve çok bilinen değilse
+      if(score > 0 && anime.score < 8 && anime.popularity > 1000){
+        if(score > bestScore){
+          bestScore = score;
+          best = [anime];
+        }else if(score === bestScore){
+          best.push(anime);
+        }
+      }
     });
 
-    if(score>bestScore){
-      bestScore=score;
-      best=[anime];
-    }else if(score===bestScore){
-      best.push(anime);
+    if(best.length){
+      chosen = best[Math.floor(Math.random()*best.length)];
     }
-  });
+  }
 
-  if(!best.length) return;
+  if(!chosen){
+    alert("Seçilen türlerde uygun az bilinen anime bulunamadı. 😅");
+    return;
+  }
 
-  const chosen=best[Math.floor(Math.random()*best.length)];
-  secilenAnime=chosen.title;
-
-  document.getElementById("animeTitle").innerText=chosen.title;
-  const img=document.getElementById("animeImg");
-  img.src=chosen.images.jpg.large_image_url;
+  secilenAnime = chosen.title;
+  document.getElementById("animeTitle").innerText = chosen.title;
+  const img = document.getElementById("animeImg");
+  img.src = chosen.images.jpg.large_image_url;
   img.style.display="block";
 }
 
 function animecixGit(){
   if(!secilenAnime) return;
-  // Anime adını + " izle" olarak Google'da aratma
   const query = encodeURIComponent(secilenAnime + " İzle");
   location.href = "https://www.google.com/search?q=Animecix " + query;
 }
