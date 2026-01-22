@@ -25,7 +25,7 @@ body{
   justify-content:center;
   align-items:center;
 
-
+  /* 🌌 URL İLE ARKAPLAN */
   background:
     linear-gradient(rgba(5,5,20,.85),rgba(5,5,20,.85)),
     url("https://media.discordapp.net/attachments/570621417935208463/1463715351836758036/qq9rnxx4sg971.png?ex=6972d6a6&is=69718526&hm=9477d020dbdebc2186680b4ee2ea4954b47f9d25276b58e86a2b5503a912871e&=&format=webp&quality=lossless&width=550&height=309");
@@ -33,6 +33,7 @@ body{
   background-position:center;
 }
 
+/* ANA KASA */
 .container{
   width:1100px;
   height:640px;
@@ -41,7 +42,7 @@ body{
   gap:22px;
 }
 
-
+/* SOL PANEL */
 .sidebar{
   background:var(--panel);
   backdrop-filter:blur(14px);
@@ -53,7 +54,7 @@ body{
   box-shadow:0 0 40px rgba(255,78,205,0.25);
 
   position:relative;
-  top:-24px; 
+  top:-24px; /* 🔼 yukarı alındı */
 }
 
 .sidebar h3{
@@ -105,7 +106,8 @@ input[type="checkbox"]{
   cursor:pointer;
   box-shadow:0 0 25px rgba(255,78,205,.6);
 }
-  
+
+/* SAĞ PANEL */
 .main{
   display:flex;
   flex-direction:column;
@@ -113,7 +115,7 @@ input[type="checkbox"]{
   gap:10px;
 }
 
-
+/* 🖼️ PREVIEW */
 .preview{
   width:350px;
   height:540px;
@@ -124,14 +126,14 @@ input[type="checkbox"]{
   box-shadow:0 0 45px rgba(124,124,255,.25);
 }
 
-
+/* 🎯 RESİM TAM DOLU */
 .preview img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
-
+/* BAŞLIK */
 .title-box{
   width:350px;
   height:42px;
@@ -147,7 +149,7 @@ input[type="checkbox"]{
   box-shadow:0 0 16px rgba(255,78,205,.2);
 }
 
-
+/* BUTON */
 .action{
   width:350px;
   height:40px;
@@ -211,13 +213,14 @@ input[type="checkbox"]{
 <script>
 let secilenAnime="";
 
+// 🔹 Sayfanın en üstüne "Made by Boris (Furkan)" ekleme
 const madeBy = document.createElement('div');
 madeBy.innerText = "Made by Boris (Furkan)";
 madeBy.style.position = "absolute";
-madeBy.style.top = "20px";
+madeBy.style.top = "50px";
 madeBy.style.width = "100%";
 madeBy.style.textAlign = "center";
-madeBy.style.fontSize = "50px";  
+madeBy.style.fontSize = "70px";  // 🔹 Boy büyütüldü
 madeBy.style.fontWeight = "600";
 madeBy.style.color = "var(--neon)";
 madeBy.style.textShadow = "0 0 8px var(--neon), 0 0 12px var(--neon2)";
@@ -264,10 +267,11 @@ async function animeBul(){
 
 function animecixGit(){
   if(!secilenAnime) return;
-  location.href="https://www.google.com/search?q=Animecix "+encodeURIComponent(secilenAnime);
+  // Anime adını + " izle" olarak Google'da aratma
+  const query = encodeURIComponent(secilenAnime + " İzle");
+  location.href = "https://www.google.com/search?q=Animecix " + query;
 }
 </script>
 
 </body>
-
 </html>
